@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 const database = {
 	users: [
@@ -11,6 +13,7 @@ const database = {
 			id: '123',
 			name: 'John',
 			email: 'john@gmail.com',
+			password: 'cookies',
 			entries: 0,
 			joined: new Date()
 		},
@@ -18,6 +21,7 @@ const database = {
 			id: '1234',
 			name: 'Sally',
 			email: 'sally@gmail.com',
+			password: 'bananas',
 			entries: 0,
 			joined: new Date()
 
@@ -37,12 +41,12 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
-	bcrypt.compare("apples", "$2a$10$wRE26jXgAM79vX.pVF497ONcpgqad/GjUNRgqyTJqp3WS/Ke5f2V6", function(err, res) {
-    	console.log(res);
-	});
-	bcrypt.compare("not_bacon", "$2a$10$wRE26jXgAM79vX.pVF497ONcpgqad/GjUNRgqyTJqp3WS/Ke5f2V6", function(err, res) {
-	    console.log(res);
-	});
+	// bcrypt.compare("apples", "$2a$10$wRE26jXgAM79vX.pVF497ONcpgqad/GjUNRgqyTJqp3WS/Ke5f2V6", function(err, res) {
+    // 	console.log(res);
+	// });
+	// bcrypt.compare("not_bacon", "$2a$10$wRE26jXgAM79vX.pVF497ONcpgqad/GjUNRgqyTJqp3WS/Ke5f2V6", function(err, res) {
+	//     console.log(res);
+	// });
 	if(req.body.email === database.users[0].email && req.body.password === database.users[0].password){
 		res.json('success');
 	} else {
@@ -52,12 +56,12 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
 	const { email, name, password } = req.body;
-	bcrypt.genSalt(10, function(err, salt) {
-	    bcrypt.hash(password, salt, function(err, hash) {
-				console.log(hash);	        
-	    	});
-		}
-	);
+	// bcrypt.genSalt(10, function(err, salt) {
+	//     bcrypt.hash(password, salt, function(err, hash) {
+	// 			console.log(hash);	        
+	//     	});
+	// 	}
+	// );
 	database.users.push({
 		id: '125',
 		name: name,
@@ -98,7 +102,7 @@ app.put('/image', (req, res) => {
 	}
 })
 
-app.listen(3000, ()=>{
+app.listen(3001, ()=>{
 	console.log('app is running');
 })
 

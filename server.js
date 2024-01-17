@@ -2,6 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
+const knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    port : 5432,
+    user : 'postgres',
+    password : '',
+    database : 'smart-brain'
+  }
+});
+
+console.log(knex.select('*').from('users'));
 
 const app = express();
 app.use(bodyParser.json());

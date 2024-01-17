@@ -2,18 +2,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
-const knex = require('knex')({
+const knex = require('knex');
+
+const db = knex({
   client: 'pg',
   connection: {
     host : '127.0.0.1',
     port : 5432,
-    user : 'postgres',
-    password : '',
+    user : 'danilo',
+    password : 'danilo',
     database : 'smart-brain'
   }
 });
 
-console.log(knex.select('*').from('users'));
+db.select('*').from('users').then(data => {
+	console.log(data);
+});
 
 const app = express();
 app.use(bodyParser.json());
@@ -74,13 +78,12 @@ app.post('/register', (req, res) => {
 	//     	});
 	// 	}
 	// );
-	database.users.push({
-		id: '125',
-		name: name,
+
+	db('users').insert({
 		email: email,
-		entries: 0,
+		name: name,
 		joined: new Date()
-	})
+	}).then(console.log);
 	res.json(database.users[database.users.length-1]);
 })
 

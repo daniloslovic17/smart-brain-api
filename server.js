@@ -16,7 +16,7 @@ const db = knex({
 });
 
 db.select('*').from('users').then(data => {
-	console.log(data);
+	// console.log(data);
 });
 
 const app = express();
@@ -79,12 +79,17 @@ app.post('/register', (req, res) => {
 	// 	}
 	// );
 
-	db('users').insert({
+	db('users')
+	.returning('*')
+	.insert({
 		email: email,
 		name: name,
 		joined: new Date()
-	}).then(console.log);
-	res.json(database.users[database.users.length-1]);
+		})
+	.then(user => {
+		res.json(user[0]);
+	})
+	.catch(err => res.status(400).json('Unable to Register'));
 })
 
 app.get('/profile/:id', (req, res) => {

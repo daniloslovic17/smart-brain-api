@@ -23,10 +23,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-	res.send(database.users);
-})
-
 app.post('/signin', (req, res) => {
 	db.select('email', 'hash').from('login')
 	.where('email', '=', req.body.email)

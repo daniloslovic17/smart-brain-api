@@ -13,11 +13,11 @@ const imageAPI = require('./controllers/imageAPI');
 const db = knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
+    host : process.env.DBHOST,
     port : 5432,
-    user : 'danilo',
-    password : 'danilo',
-    database : 'smart-brain'
+    user : process.env.DBUSER,
+    password : process.env.DBPASS,
+    database : process.env.DBNAME
   }
 });
 
